@@ -1,0 +1,31 @@
+commands:
+  lojban:
+    description: 逻辑语工具
+  lujvo:
+    description: 复合词合成/分解
+    usage: |
+      输入一个 lujvo 来分解；输入空格分隔的若干个 gismu、cmavo 或 rafsi（开头和/或末尾须加横杠）来合成 lujvo。
+      输入以 - 开头时，前加 -- 以避免被识别为选项。
+    messages:
+      jvozba-result-item: "{0}：{1}（{2}）"
+      jvozba-result-key-paren: "{0}（{1}）"
+      best-brivla: brivla 最优形式
+      best-cmevla: cmevla 最优形式
+      has-experimental-rafsi: 含 experimental rafsi
+      no-experimental-rafsi: 不含 experimental rafsi
+      has-forbidden-la-lai-doi: 含非法 la/lai/doi
+      no-forbidden-la-lai-doi: 不含非法 la/lai/doi
+      star: "*"
+      star-experimental-rafsi: "*experimental rafsi"
+      rafsi-of: "{0} 是 {1} 的 {2}"
+      rafsi-list: "{0} {1} 的 rafsi 有：{2}"
+      gismu: gismu
+      cmavo: cmavo
+      rafsi: rafsi
+      experimental-rafsi: experimental rafsi
+      no-result: 无结果…
+      invalid-input: 输入无效…
+  sisku:
+    description: vlasisku 词典截图
+    messages:
+      no-input: 未指定搜索词。
