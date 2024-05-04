@@ -44,7 +44,7 @@ function deflaw(list: LujvoAndScore[], observeFlaws: string[] = []) {
 }
 
 export function apply(ctx: Context) {
-  ctx.i18n.define("zh-CN", require("./locales/zh.yml"))
+  ctx.i18n.define("zh-CN", require("./locales/zh"))
 
   // lujvo
   const cmdLujvo = ctx
