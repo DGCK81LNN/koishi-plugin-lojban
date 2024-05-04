@@ -25,7 +25,5 @@ commands:
       experimental-rafsi: experimental rafsi
       no-result: 无结果…
       invalid-input: 输入无效…
-  sisku:
-    description: vlasisku 词典截图
-    messages:
-      no-input: 未指定搜索词。
+  jboski:
+    description: 语法解析
