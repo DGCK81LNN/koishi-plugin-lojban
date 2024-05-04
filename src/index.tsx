@@ -162,9 +162,11 @@ export function apply(ctx: Context) {
         `https://vudrux.site/jboski/mirror.php?text=${encodeURIComponent(input)}`,
         { responseType: "text" }
       )
-      result = result.replace(/&[0-9A-Za-z]+;/g, ent =>
-        ["&lt;", "&gt;", "&quot;", "&amp;"].includes(ent) ? ent : decodeHTML(ent)
-      )
+      result = result
+        .replace(/&[0-9A-Za-z]+;/g, ent =>
+          ["&lt;", "&gt;", "&quot;", "&amp;"].includes(ent) ? ent : decodeHTML(ent)
+        )
+        .replace(/\r?\n/g, " ")
       return (
         <html>
           <style>
