@@ -52,10 +52,10 @@ export function apply(ctx: Context) {
       checkUnknown: true,
       showWarning: true,
     })
-    .option("input", "-- <input:rawtext>", { hidden: true })
+    .option("rest", "-- <input:rawtext>", { hidden: true })
   cmdLujvo.action(({ session, options }, input) => {
     input ||= ""
-    if (options.input) input += " " + options.input
+    if (!input) input = options.rest
     if (!input) return session.text(".invalid-input")
     input = input
       .trim()
