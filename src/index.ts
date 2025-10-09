@@ -10,7 +10,7 @@ import { decodeHTML } from "entities"
 import { Context, Schema, h } from "koishi"
 
 export const name = "lojban"
-export const inject = { optional: ["puppeteer"] }
+export const inject = { optional: ["component:html"] }
 export interface Config {}
 export const Config: Schema<Config> = Schema.object({})
 
@@ -143,8 +143,8 @@ export function apply(ctx: Context) {
     }
   })
 
-  // jboski
   ctx.inject(["component:html"], ctx => {
+    // jboski
     const cmdSisku = ctx.command("lojban/jboski <input:rawtext>", {
       checkArgCount: true,
       strictOptions: true,
@@ -159,44 +159,44 @@ export function apply(ctx: Context) {
           ["&lt;", "&gt;", "&quot;", "&amp;"].includes(ent) ? ent : decodeHTML(ent)
         )
         .replace(/\r?\n/g, " ")
-      return (
+      return /* html */ `
         <html>
           <style>
-            {
-              /*css*/ `
-              body {
-                margin: 0.5em;
-                font-family: sans-serif;
-              }
-              #output {
-                overflow-wrap: break-word;
-                display: inline-block;
-                max-width: 32em;
-              }
-              #output .translationerror {
-                border: 1px solid #a88;
-                background: #fcc;
-                padding: 1rem;
-                white-space: pre-wrap;
-              }
-              #output .small {
-                font-size: small;
-              }
-              #output .sumtiplace {
-                color: maroon;
-                font-size: small;
-              }
-              #output .parenmark {
-                font-size: xx-small;
-              }
-              #output .translation {
-                color: #00f;
-              }`
+            body {
+              margin: 0.5em;
+              font-family: sans-serif;
+            }
+            #output {
+              overflow-wrap: break-word;
+              display: inline-block;
+              max-width: 32em;
+            }
+            #output .translationerror {
+              border: 1px solid #a88;
+              background: #fcc;
+              padding: 1rem;
+              white-space: pre-wrap;
+            }
+            #output .small {
+              font-size: small;
+            }
+            #output .sumtiplace {
+              color: maroon;
+              font-size: small;
+            }
+            #output .parenmark {
+              font-size: xx-small;
+            }
+            #output .translation {
+              color: #00f;
             }
           </style>
-          <div id="output">{h.parse(result)}</div>
+          <div id="output">RESULT</div>
         </html>
-      )
+      `
+        .trim()
+        .replace(/\n */g, "")
+        .replace("RESULT", result)
     })
   })
 }
