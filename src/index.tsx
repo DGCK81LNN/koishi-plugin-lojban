@@ -47,15 +47,8 @@ export function apply(ctx: Context) {
   ctx.i18n.define("zh-CN", require("./locales/zh"))
 
   // lujvo
-  const cmdLujvo = ctx
-    .command("lojban/lujvo <input:rawtext>", {
-      checkUnknown: true,
-      showWarning: true,
-    })
-    .option("rest", "-- <input:rawtext>", { hidden: true })
-  cmdLujvo.action(({ session, options }, input) => {
-    input ||= ""
-    if (!input) input = options.rest
+  const cmdLujvo = ctx.command("lojban/lujvo <input:rawtext>", { strictOptions: true })
+  cmdLujvo.action(({ session }, input) => {
     if (!input) return session.text(".invalid-input")
     input = input
       .trim()
@@ -146,7 +139,7 @@ export function apply(ctx: Context) {
       }
       return session.text(".invalid-input")
     } catch (e) {
-      return String(e)
+      return h.text(String(e))
     }
   })
 
@@ -154,8 +147,7 @@ export function apply(ctx: Context) {
   ctx.inject(["component:html"], ctx => {
     const cmdSisku = ctx.command("lojban/jboski <input:rawtext>", {
       checkArgCount: true,
-      checkUnknown: true,
-      showWarning: true,
+      strictOptions: true,
     })
     cmdSisku.action(async ({}, input) => {
       let result = await ctx.http.get(
