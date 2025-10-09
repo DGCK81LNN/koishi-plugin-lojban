@@ -43,6 +43,12 @@ function deflaw(list: LujvoAndScore[], observeFlaws: string[] = []) {
   return results
 }
 
+function subtituteEntities(html: string) {
+  return html.replace(/&[0-9A-Za-z]+;/g, ent =>
+    ["&lt;", "&gt;", "&quot;", "&amp;"].includes(ent) ? ent : decodeHTML(ent)
+  )
+}
+
 export function apply(ctx: Context) {
   ctx.i18n.define("zh-CN", require("./locales/zh"))
 
@@ -139,7 +145,7 @@ export function apply(ctx: Context) {
       }
       return session.text(".invalid-input")
     } catch (e) {
-      return h.text(String(e))
+      return h.i18n(String(e))
     }
   })
 
@@ -154,11 +160,7 @@ export function apply(ctx: Context) {
         `https://vudrux.site/jboski/mirror.php?text=${encodeURIComponent(input)}`,
         { responseType: "text" }
       )
-      result = result
-        .replace(/&[0-9A-Za-z]+;/g, ent =>
-          ["&lt;", "&gt;", "&quot;", "&amp;"].includes(ent) ? ent : decodeHTML(ent)
-        )
-        .replace(/\r?\n/g, " ")
+      result = subtituteEntities(result).replace(/\r?\n/g, " ")
       return /* html */ `
         <html>
           <style>
@@ -197,6 +199,46 @@ export function apply(ctx: Context) {
         .trim()
         .replace(/\n */g, "")
         .replace("RESULT", result)
+    })
+
+    // camxes
+    const cmdCamxes = ctx.command("lojban/camxes <input:rawtext>", {
+      checkArgCount: true,
+      strictOptions: true,
+    })
+    cmdCamxes.action(async ({ session }, input) => {
+      const result = await ctx.http.get(
+        `https://vudrux.site/camxes/mirror.php?text=${encodeURIComponent(input)}`,
+        { responseType: "json" }
+      )
+      const grammatical = result.grammatical as boolean
+      const html = subtituteEntities(result.html)
+      if (!grammatical && /^\s*<div class="box first">\s*<\/div>/.test(html))
+        return session.i18n(".ungrammatical")
+      const visual = /* html */ `
+        <html>
+          <style>
+            * { font-family: sans-serif; }
+            .box {
+              text-align: center;
+              display: table-cell;
+              border-spacing: 1em 0;
+            }
+            .box p { margin: .5em; }
+            .first { background: #ede5dc; }
+            .second { background: #f6eaeb; }
+            .third { background: #f9dbdc; }
+            .fourth { background: #fff6f2; }
+            .fifth { background: #f4e0d4; }
+          </style>
+          RESULT
+        </html>
+      `
+        .trim()
+        .replace(/\n */g, "")
+        .replace("RESULT", html)
+      if (!grammatical) return session.text(".ungrammatical") + visual
+      return visual
     })
   })
 }

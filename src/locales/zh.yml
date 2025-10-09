@@ -2,7 +2,7 @@ commands:
   lojban:
     description: 逻辑语工具
   lujvo:
-    description: 复合词合成/分解
+    description: 逻辑语复合词合成/分解
     usage: |
       输入一个 lujvo 来分解；输入空格分隔的若干个 gismu、cmavo 或 rafsi（开头和/或末尾须加横杠）来合成 lujvo。
       输入以 - 开头时，前加 -- 以避免被识别为选项。
@@ -26,4 +26,8 @@ commands:
       no-result: 无结果…
       invalid-input: 输入无效…
   jboski:
-    description: 语法解析
+    description: 逻辑语 jbofi'e 语法解析
+  camxes:
+    description: 逻辑语 camxes 语法解析
+    messages:
+      ungrammatical: 语法错误…
