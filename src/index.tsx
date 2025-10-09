@@ -73,7 +73,7 @@ export function apply(ctx: Context) {
           .map(p => p.part + (p.experimental ? session.text(".star") : ""))
           .join("-")
         const components = result
-          .map(p => p.selrafsi)
+          .map(p => p.part.length > 1 && (p.selrafsi || "???"))
           .filter(Boolean)
           .join(" ")
         return (
