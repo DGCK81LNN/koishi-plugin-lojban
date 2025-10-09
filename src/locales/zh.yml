@@ -17,8 +17,8 @@ commands:
       no-forbidden-la-lai-doi: 不含非法 la/lai/doi
       star: "*"
       star-experimental-rafsi: "*experimental rafsi"
-      rafsi-of: "{0} 是 {1} 的 {2}"
-      rafsi-list: "{0} {1} 的 rafsi 有：{2}"
+      rafsi-of: "“{0}”是“{1}”的 {2}"
+      rafsi-list: "{0}“{1}”的 rafsi 有：{2}"
       gismu: gismu
       cmavo: cmavo
       rafsi: rafsi
