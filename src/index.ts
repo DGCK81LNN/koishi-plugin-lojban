@@ -5,6 +5,7 @@ import {
   search_selrafsi_from_rafsi2,
   type LujvoAndScore,
 } from "@dgck81lnn/jvozba"
+import httpErrorHandler from "@dgck81lnn/koishi-http-error-handler"
 import type {} from "@koishijs/plugin-help"
 import { decodeHTML } from "entities"
 import { Context, Schema, h } from "koishi"
@@ -51,6 +52,9 @@ function subtituteEntities(html: string) {
 
 export function apply(ctx: Context) {
   ctx.i18n.define("zh-CN", require("./locales/zh"))
+  httpErrorHandler.i18n(ctx)
+
+  const heh = httpErrorHandler(ctx)
 
   // lujvo
   const cmdLujvo = ctx.command("lojban/lujvo <input:rawtext>", { strictOptions: true })
@@ -156,11 +160,13 @@ export function apply(ctx: Context) {
       strictOptions: true,
     })
     cmdSisku.action(async ({}, input) => {
-      let result = await ctx.http.get(
-        `https://vudrux.site/jboski/mirror.php?text=${encodeURIComponent(input)}`,
-        { responseType: "text" }
-      )
-      result = subtituteEntities(result).replace(/\r?\n/g, " ")
+      const result = await ctx.http
+        .get("https://jboski.lojban.org/", {
+          params: { json: "true", text: input },
+          responseType: "json",
+        })
+        .catch(heh)
+      const html = subtituteEntities(result.html).replace(/\r?\n/g, " ")
       return /* html */ `
         <html>
           <style>
@@ -198,7 +204,7 @@ export function apply(ctx: Context) {
       `
         .trim()
         .replace(/\n */g, "")
-        .replace("RESULT", result)
+        .replace("RESULT", html)
     })
 
     // camxes
@@ -207,10 +213,12 @@ export function apply(ctx: Context) {
       strictOptions: true,
     })
     cmdCamxes.action(async ({ session }, input) => {
-      const result = await ctx.http.get(
-        `https://vudrux.site/camxes/mirror.php?text=${encodeURIComponent(input)}`,
-        { responseType: "json" }
-      )
+      const result = await ctx.http
+        .get("https://camxes.lojban.org", {
+          params: { json: "true", text: input },
+          responseType: "json",
+        })
+        .catch(heh)
       const grammatical = result.grammatical as boolean
       const html = subtituteEntities(result.html)
       if (!grammatical && /^\s*<div class="box first">\s*<\/div>/.test(html))
