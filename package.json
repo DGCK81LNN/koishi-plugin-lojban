@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-lojban",
   "description": "Lojban tools for Koishi",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
@@ -15,19 +15,18 @@
     "url": "git+https://github.com/DGCK81LNN/koishi-plugin-lojban.git"
   },
   "keywords": [
-    "chatbot",
-    "koishi",
-    "plugin",
     "lojbo",
-    "jbo",
     "jbobau",
-    "jboski",
-    "jbofi'e",
-    "jbofihe",
     "lujvo",
     "jvozba",
     "jvoka'a",
-    "jvokaha"
+    "jvokaha",
+    "jboski",
+    "jbofi'e",
+    "jbofihe",
+    "camxes",
+    "jbotci",
+    "gentufa"
   ],
   "koishi": {
     "browser": true,
@@ -36,7 +35,7 @@
       "zh": "逻辑语（lojban）工具"
     },
     "locales": [
-      "zh"
+      "zh-CN"
     ],
     "service": {
       "optional": [

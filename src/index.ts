@@ -10,6 +10,14 @@ import type {} from "@koishijs/plugin-help"
 import { decodeHTML } from "entities"
 import { Context, Schema, h } from "koishi"
 
+import { readFileSync } from "fs"
+import { resolve } from "path"
+export const usage = (() => {
+  try {
+    return readFileSync(resolve(__dirname, "../readme.md"), "utf-8").replace(/^.+?\n\n\n/s, "")
+  } catch {}
+})()
+
 export const name = "lojban"
 export const inject = { optional: ["component:html"] }
 export interface Config {}
