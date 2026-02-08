@@ -249,4 +249,33 @@ export function apply(ctx: Context) {
       return visual
     })
   })
+
+  // jbotci gentufa
+  const cmdGentufa = ctx
+    .command("lojban/gentufa <input:rawtext>", {
+      checkArgCount: true,
+      strictOptions: true,
+    })
+    .option("english", "-E, --no-english", { value: false })
+    .option("elided", "-l")
+  cmdGentufa.action(async ({ options }, input) => {
+    const args = { text: input, english: +(options.english != false), elided: +!!options.elided }
+    if (ctx["component:html"]) {
+      const result = await ctx.http
+        .get("https://lojban.int19h.org/cgi-bin/parse.cgi", {
+          params: { view: "svg", ...args },
+          responseType: "text",
+        })
+        .catch(heh)
+      return `<html>${result}</html>`
+    } else {
+      const png = await ctx.http
+        .get("https://lojban.int19h.org/cgi-bin/parse.cgi", {
+          params: { view: "png", ...args },
+          responseType: "arraybuffer",
+        })
+        .catch(heh)
+      return h.image(png, "image/png")
+    }
+  })
 }

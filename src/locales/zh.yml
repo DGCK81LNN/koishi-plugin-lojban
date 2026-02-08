@@ -31,3 +31,8 @@ commands:
     description: 逻辑语 camxes 语法解析
     messages:
       ungrammatical: 语法错误…
+  gentufa:
+    description: 逻辑语 jbotci gentufa 语法解析
+    options:
+      english.false: 显示语法结构的逻辑语名称
+      elided: 显示省略的终止词
