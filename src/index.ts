@@ -270,7 +270,7 @@ export function apply(ctx: Context) {
     const args = { text: input, english: +(options.english != false), elided: +!!options.elided }
     if (ctx["component:html"]) {
       const result = await ctx.http
-        .get("https://lojban.int19h.org/cgi-bin/parse.cgi", {
+        .get("https://lojban.int19h.org/jbotci/gentufa", {
           params: { view: "svg", ...args },
           responseType: "text",
         })
@@ -278,7 +278,7 @@ export function apply(ctx: Context) {
       return `<html>${result}</html>`
     } else {
       const png = await ctx.http
-        .get("https://lojban.int19h.org/cgi-bin/parse.cgi", {
+        .get("https://lojban.int19h.org/jbotci/gentufa", {
           params: { view: "png", ...args },
           responseType: "arraybuffer",
         })
