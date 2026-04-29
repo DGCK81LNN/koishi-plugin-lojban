@@ -157,7 +157,7 @@ export function apply(ctx: Context) {
       }
       return session.text(".invalid-input")
     } catch (e) {
-      return h.i18n(String(e))
+      return h.text(String(e))
     }
   })
 
